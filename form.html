@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form - Soil Erosion Guide</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+    <nav>
+        <div class="logo">Soil Erosion Guide</div>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="form.html">Form</a></li>
+            <li><a href="aboutus.html">About Us</a></li>
+            <li><a href="contactus.html">Contact Us</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <div class="form-container">
+            <h2>Tell us about your land</h2>
+
+            <label for="location">Where is your farm? (e.g., "Farm near Mountain Valley")</label>
+            <input type="text" id="location" placeholder="Enter farm location">
+
+            <label for="soilType">What kind of soil do you have?</label>
+            <select id="soilType">
+                <option value="Red soil">Red Soil</option>
+                <option value="Black Soil">Black Soil</option>
+                <option value="Clay Soil">Clay Soil</option>
+                <option value="Laterite Soil">Laterite Soil</option>
+                <option value="Sandy Soil">Sandy Soil</option>
+            </select>
+
+            <label for="slope">How steep is the land?</label>
+            <input type="range" id="slope" min="0" max="30" step="1" value="10">
+            <span id="slopeValue">10&deg;</span>
+
+            <label for="rainfall">How much rain does your farm get each year? (in millimeters)</label>
+            <input type="number" id="rainfall" placeholder="e.g., 500">
+
+            <label for="Season">Select the Season type</label>
+            <select id="Season">
+                <option value="Summer">Summer</option>
+                <option value="Winter">Winter</option>
+                <option value="Mansoon">Mansoon</option>
+            </select>
+
+            <label for="soilTexture">What is the texture of your soil?</label>
+            <select id="soilTexture">
+                <option value="rough">Rough (Rocky or coarse)</option>
+                <option value="smooth">Smooth (Fine particles)</option>
+            </select>
+
+            <label for="waterSource">Do you have access to water for irrigation?</label>
+            <select id="waterSource">
+                <option value="yes">Yes, I have access to water</option>
+                <option value="no">No, no water access</option>
+            </select>
+
+            <label for="floodRisk">Is your land at risk of flooding?</label>
+            <select id="floodRisk">
+                <option value="yes">Yes, it floods</option>
+                <option value="no">No, it doesn't flood</option>
+            </select>
+
+            <!-- New Inputs -->
+            <label for="soilPh">What is the pH level of your soil?</label>
+            <select id="soilPh">
+                <option value="acidic">Acidic (Below 7)</option>
+                <option value="neutral">Neutral (Around 7)</option>
+                <option value="alkaline">Alkaline (Above 7)</option>
+            </select>
+
+            <label for="landSize">What is the size of your land (in hectares)?</label>
+            <input type="number" id="landSize" placeholder="e.g., 5 hectares">
+
+            <button onclick="getErosionRisk()">See Soil Protection Tips</button>
+        </div>
+
+        <div class="results" id="results">
+       
+
+        <div class="results" id="results">
+            <!-- Results will be displayed here -->
+        </div>
+    </main>
+    
+
+
+    <script>
+         function getErosionRisk() {
+            const location = document.getElementById("location").value;
+            const soilType = document.getElementById("soilType").value;
+            const slope = document.getElementById("slope").value;
+            const rainfall = document.getElementById("rainfall").value;
+            const soilTexture = document.getElementById("soilTexture").value;
+            const waterSource = document.getElementById("waterSource").value;
+            const floodRisk = document.getElementById("floodRisk").value;
+            const soilPh = document.getElementById("soilPh").value;
+            const landSize = document.getElementById("landSize").value;
+
+            let erosionRisk = "Low";
+            let recommendedCrops = [];
+
+            if (slope > 20 || rainfall > 1000) {
+                erosionRisk = "High";
+                recommendedCrops = ["Rice", "Chilli", "millets"];
+            } else if (slope > 10 || rainfall > 600) {
+                erosionRisk = "Medium";
+                recommendedCrops = ["Corn", "Wheat", "Barley"];
+            } else {
+                erosionRisk = "Low";
+                recommendedCrops = ["Tomatoes", "Spinach", "Cabbage"];
+            }
+
+            displayResults(location, erosionRisk, recommendedCrops);
+        }
+
+        function displayResults(location, erosionRisk, recommendedCrops) {
+            const resultsDiv = document.getElementById("results");
+            resultsDiv.innerHTML = `
+                <h3>Results for: ${location}</h3>
+                <p><strong>Erosion Risk:</strong> ${erosionRisk}</p>
+                <p><strong>Recommended Crops:</strong></p>
+                <ul>
+                    ${recommendedCrops.map(crop => `<li>${crop}</li>`).join('')}
+                </ul>
+            `;
+        }
+
+        document.getElementById("slope").addEventListener("input", function () {
+            document.getElementById("slopeValue").textContent = this.value + "°";
+        });
+    </script>
+</body>
+
+</html>
